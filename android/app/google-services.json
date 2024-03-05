@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902287675450",
+    "project_id": "clone-8bad6",
+    "storage_bucket": "clone-8bad6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902287675450:android:07b54464d1f2ff41cca503",
+        "android_client_info": {
+          "package_name": "com.example.ibroximjon.amazon_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBImRuGRBkLZvi2XcOZw4nZ5WmwPaxTYsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
