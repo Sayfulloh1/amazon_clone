@@ -37,7 +37,7 @@ class AuthServices {
           Navigator.push(
               context,
               PageTransition(
-                child: OtpScreen(
+                child: OTPScreen(
                   mobileNumber: mobileNo,
                 ),
                 type: PageTransitionType.rightToLeft,

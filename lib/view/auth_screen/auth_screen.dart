@@ -1,10 +1,10 @@
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/common_functions.dart';
 import '../../controller/services/auth_services/auth_services.dart';
 import '../../utils/colors.dart';
-import '../../utils/theme.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -14,8 +14,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  String countryCode = '+998';
   bool inLogin = true;
+  String currentCountryCode = '+91';
   TextEditingController mobileController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
@@ -29,11 +29,11 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: white,
       appBar: AppBar(
         backgroundColor: white,
-        title: Image.asset(
-          'assets/images/amazon_logo.png',
-          height: height * 0.06,
-        ),
         centerTitle: true,
+        title: Image(
+          image: AssetImage('assets/images/amazon_logo.png'),
+          height: height * 0.04,
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -41,31 +41,35 @@ class _AuthScreenState extends State<AuthScreen> {
             height: height,
             width: width,
             padding: EdgeInsets.symmetric(
-                horizontal: width * 0.03, vertical: height * 0.02),
+              horizontal: width * 0.03,
+              vertical: height * 0.02,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Welcome',
-                  style: theme.textTheme.displaySmall!
+                  style: textTheme.displaySmall!
                       .copyWith(fontWeight: FontWeight.w600),
                 ),
-                CommonFunctions.blankSpace(height * 0.02, 0),
-                //
-                //
-                Builder(
-                  builder: (context) {
-                    if(inLogin){
-                      return SignIn(width, height, context, textTheme);
-                    }
-                    else{
-                      return  CreateAccount(width, height, context, textTheme);
-                    }
-                  },
+                CommonFunctions.blankSpace(
+                  height * 0.02,
+                  0,
                 ),
-                CommonFunctions.blankSpace(height * .05, 0),
-                BottomAuthScreenWidget(
-                    width: width, height: height, textTheme: textTheme),
+                // SignIn(width, height, textTheme, context),
+                // CreateAccount(width, height, textTheme, context),
+
+                Builder(builder: (context) {
+                  if (inLogin) {
+                    return SignIn(width, height, textTheme, context);
+                  }
+                  return CreateAccount(width, height, textTheme, context);
+                }),
+                CommonFunctions.blankSpace(
+                  height * 0.05,
+                  0,
+                ),
+                const BottomAuthScreenWidget()
               ],
             ),
           ),
@@ -75,26 +79,26 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Container SignIn(
-      double width, double height, BuildContext context, TextTheme textTheme) {
+      double width, double height, TextTheme textTheme, BuildContext context) {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        border: Border.all(color: greyShade3),
+        border: Border.all(
+          color: greyShade3,
+        ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
+            height: height * 0.06,
             width: width,
-            height: height * .06,
-            padding: EdgeInsets.symmetric(horizontal: width * .02),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: greyShade3),
-                top: BorderSide(color: greyShade3),
               ),
               color: greyShade1,
             ),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
             child: Row(
               children: [
                 InkWell(
@@ -106,41 +110,43 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Container(
                     height: height * 0.03,
                     width: height * 0.03,
-                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: grey)),
+                        border: Border.all(color: grey),
+                        color: white),
+                    alignment: Alignment.center,
                     child: Icon(
                       Icons.circle,
-                      size: height * 0.01,
+                      size: height * 0.015,
                       color: inLogin ? transparent : secondaryColor,
                     ),
                   ),
                 ),
-                CommonFunctions.blankSpace(0, width * .02),
+                CommonFunctions.blankSpace(
+                  0,
+                  width * 0.02,
+                ),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Create Account',
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
-                      ),
+                          text: 'Create Account. ',
+                          style: textTheme.bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold)),
                       TextSpan(
-                        text: ' New to Amazon?',
-                        style: theme.textTheme.bodyMedium,
-                      ),
+                          text: 'New to Amazon? ', style: textTheme.bodyMedium)
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          CommonFunctions.blankSpace(height * .015, 0),
           Container(
             width: width,
             padding: EdgeInsets.symmetric(
-                horizontal: width * .02, vertical: height * .01),
+              horizontal: width * 0.03,
+              vertical: height * 0.01,
+            ),
             child: Column(
               children: [
                 Row(
@@ -154,132 +160,151 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Container(
                         height: height * 0.03,
                         width: height * 0.03,
-                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: grey)),
+                            border: Border.all(color: grey),
+                            color: white),
+                        alignment: Alignment.center,
                         child: Icon(
                           Icons.circle,
-                          size: height * 0.01,
+                          size: height * 0.015,
                           color: inLogin ? secondaryColor : transparent,
                         ),
                       ),
                     ),
-                    CommonFunctions.blankSpace(0, width * .02),
+                    CommonFunctions.blankSpace(
+                      0,
+                      width * 0.02,
+                    ),
                     RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Sign in. ',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
+                              text: 'Sign in. ',
+                              style: textTheme.bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.bold)),
                           TextSpan(
-                            text: 'Already a Customer?',
-                            style: theme.textTheme.bodyMedium,
-                          ),
+                              text: 'Already a Customer',
+                              style: textTheme.bodyMedium)
                         ],
                       ),
                     ),
                   ],
                 ),
-                CommonFunctions.blankSpace(height * .01, 0),
+                CommonFunctions.blankSpace(
+                  height * 0.01,
+                  0,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
                         showCountryPicker(
-                          context: context,
-                          onSelect: (val) {
-                            setState(() {
-                              countryCode = '+${val.phoneCode}';
+                            context: context,
+                            onSelect: (val) {
+                              setState(() {
+                                currentCountryCode = '+${val.phoneCode}';
+                              });
                             });
-                          },
-                        );
                       },
                       child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: grey),
-                          borderRadius: BorderRadius.circular(5),
-                          color: greyShade1,
-                        ),
-                        width: width * .2,
-                        height: height * .06,
+                        height: height * 0.06,
+                        width: width * 0.2,
                         alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: grey,
+                          ),
+                          color: greyShade2,
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                        ),
                         child: Text(
-                          countryCode,
-                          style: textTheme.displaySmall!
-                              .copyWith(fontWeight: FontWeight.w600),
+                          currentCountryCode,
+                          style: textTheme.displaySmall!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: width * .64,
-                      height: height * .06,
-                      alignment: Alignment.center,
+                    SizedBox(
+                      height: height * 0.06,
+                      width: width * 0.64,
                       child: TextFormField(
                         controller: mobileController,
                         cursorColor: black,
-                        style: textTheme.bodySmall,
+                        style: textTheme.displaySmall,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          hintText: 'Mobile number',
+                          hintStyle: textTheme.bodySmall,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(color: secondaryColor),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: const BorderSide(
+                              color: secondaryColor,
+                            ),
                           ),
                           disabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
                           ),
-                          hintText: 'Mobile Number',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
-                CommonFunctions.blankSpace(height * .02, 0),
-              ],
-            ),
-          ),
-          CommonFunctions.blankSpace(height * .015, 0),
-          CommonAuthButton(
-            title: 'Continue',
-            onPressed: () {
-              AuthServices.receiveOTP(
-                  context: context,
-                  mobileNo:
-                  '$countryCode${mobileController.text.trim()}');
-            },
-            btnWidth: 0.88,
-          ),
-          CommonFunctions.blankSpace(height * .02, 0),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'By continuing you agree to Amazon\'s ',
-                  style: theme.textTheme.labelMedium,
+                CommonFunctions.blankSpace(height * 0.02, 0),
+                CommonAuthButton(
+                  title: 'Continue',
+                  onPressed: () {
+                    AuthServices.receiveOTP(
+                        context: context,
+                        mobileNo:
+                        '$currentCountryCode${mobileController.text.trim()}');
+                  },
+                  btnWidth: 0.88,
                 ),
-                TextSpan(
-                  text: 'Condition of Use',
-                  style: theme.textTheme.labelMedium!.copyWith(color: blue),
+                CommonFunctions.blankSpace(
+                  height * 0.02,
+                  0,
                 ),
-                TextSpan(
-                  text: ' and ',
-                  style: theme.textTheme.labelMedium,
-                ),
-                TextSpan(
-                  text: ' Privacy Notice',
-                  style: theme.textTheme.labelMedium!.copyWith(color: blue),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'By Continuing you agree to Amazon\'s ',
+                        style: textTheme.labelMedium,
+                      ),
+                      TextSpan(
+                        text: 'Conditions of use ',
+                        style: textTheme.labelMedium!.copyWith(color: blue),
+                      ),
+                      TextSpan(
+                        text: 'and ',
+                        style: textTheme.labelMedium,
+                      ),
+                      TextSpan(
+                        text: 'Privacy Notice',
+                        style: textTheme.labelMedium!.copyWith(color: blue),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -290,22 +315,22 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Container CreateAccount(
-      double width, double height, BuildContext context, TextTheme textTheme) {
-    const String authText =
-        'By enrolling your mobile phone number, you concent to receive automated security notifications via text message from Amazon. \nMessage and data rates may apply.';
+      double width, double height, TextTheme textTheme, BuildContext context) {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        border: Border.all(color: greyShade3),
+        border: Border.all(
+          color: greyShade3,
+        ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CommonFunctions.blankSpace(height * .015, 0),
           Container(
             width: width,
             padding: EdgeInsets.symmetric(
-                horizontal: width * .02, vertical: height * .01),
+              horizontal: width * 0.03,
+              vertical: height * 0.01,
+            ),
             child: Column(
               children: [
                 Row(
@@ -319,162 +344,192 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Container(
                         height: height * 0.03,
                         width: height * 0.03,
-                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: grey)),
+                            border: Border.all(color: grey),
+                            color: white),
+                        alignment: Alignment.center,
                         child: Icon(
                           Icons.circle,
-                          size: height * 0.01,
+                          size: height * 0.015,
                           color: inLogin ? transparent : secondaryColor,
                         ),
                       ),
                     ),
-                    CommonFunctions.blankSpace(0, width * .02),
+                    CommonFunctions.blankSpace(
+                      0,
+                      width * 0.02,
+                    ),
                     RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Create account. ',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
+                              text: 'Create Account. ',
+                              style: textTheme.bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.bold)),
                           TextSpan(
-                            text: 'New to Amazon?',
-                            style: theme.textTheme.bodyMedium,
-                          ),
+                              text: 'New to Amazon?',
+                              style: textTheme.bodyMedium)
                         ],
                       ),
                     ),
                   ],
                 ),
-                CommonFunctions.blankSpace(height * .01, 0),
-                Container(
-                  width: width,
-                  height: height * .06,
-                  alignment: Alignment.center,
-                  child: TextFormField(
+                CommonFunctions.blankSpace(
+                  height * 0.01,
+                  0,
+                ),
+                SizedBox(
+                  height: height * 0.06,
+                  child: TextField(
                     controller: nameController,
-                    cursorColor: black,
-                    style: textTheme.bodySmall,
-                    // keyboardType: TextInputType.number,
                     decoration: InputDecoration(
+                      hintText: 'First and Last Name',
+                      hintStyle: textTheme.bodySmall,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: grey),
+                        borderSide: BorderSide(
+                          color: grey,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: const BorderSide(color: secondaryColor),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: grey),
+                        borderSide: const BorderSide(
+                          color: secondaryColor,
+                        ),
                       ),
                       disabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: grey),
+                        borderSide: BorderSide(
+                          color: grey,
+                        ),
                       ),
-                      hintText: 'First and last name',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          color: grey,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                CommonFunctions.blankSpace(height * .01, 0),
+                CommonFunctions.blankSpace(
+                  height * 0.01,
+                  0,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
                         showCountryPicker(
-                          context: context,
-                          onSelect: (val) {
-                            setState(() {
-                              countryCode = '+${val.phoneCode}';
+                            context: context,
+                            onSelect: (val) {
+                              setState(() {
+                                currentCountryCode = '+${val.phoneCode}';
+                              });
                             });
-                          },
-                        );
                       },
                       child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: grey),
-                          borderRadius: BorderRadius.circular(5),
-                          color: greyShade1,
-                        ),
-                        width: width * .2,
-                        height: height * .06,
+                        height: height * 0.06,
+                        width: width * 0.2,
                         alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: grey,
+                          ),
+                          color: greyShade2,
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                        ),
                         child: Text(
-                          countryCode,
-                          style: textTheme.displaySmall!
-                              .copyWith(fontWeight: FontWeight.w600),
+                          currentCountryCode,
+                          style: textTheme.displaySmall!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: width * .64,
-                      height: height * .06,
-                      alignment: Alignment.center,
+                    SizedBox(
+                      height: height * 0.06,
+                      width: width * 0.64,
                       child: TextFormField(
                         controller: mobileController,
                         cursorColor: black,
-                        style: textTheme.bodySmall,
+                        style: textTheme.displaySmall,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          hintText: 'Mobile number',
+                          hintStyle: textTheme.bodySmall,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(color: secondaryColor),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: const BorderSide(
+                              color: secondaryColor,
+                            ),
                           ),
                           disabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: grey),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
                           ),
-                          hintText: 'Mobile Number',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: grey,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
-                CommonFunctions.blankSpace(height * .02, 0),
+                CommonFunctions.blankSpace(height * 0.02, 0),
                 Text(
-                  authText,
+                  'By enrolling your mobile phone number, you concent to receive automated security notifications via text message from Amazon.\nMessage and data rates may apply.',
                   style: textTheme.bodyMedium,
                 ),
-                CommonFunctions.blankSpace(height * .02, 0),
+                CommonFunctions.blankSpace(height * 0.02, 0),
                 CommonAuthButton(
                   title: 'Continue',
-                  onPressed: (){},
-                  btnWidth: .88,
+                  btnWidth: 0.88,
+                  onPressed: () {
+                    AuthServices.receiveOTP(
+                        context: context,
+                        mobileNo:
+                        '+$currentCountryCode${mobileController.text.trim()}');
+                  },
                 ),
-                CommonFunctions.blankSpace(height * .02, 0),
+                CommonFunctions.blankSpace(
+                  height * 0.02,
+                  0,
+                ),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'By continuing you agree to Amazon\'s ',
-                        style: theme.textTheme.labelMedium,
+                        text: 'By Continuing you agree to Amazon\'s ',
+                        style: textTheme.labelMedium,
                       ),
                       TextSpan(
-                        text: 'Condition of Use',
-                        style:
-                            theme.textTheme.labelMedium!.copyWith(color: blue),
+                        text: 'Conditions of use ',
+                        style: textTheme.labelMedium!.copyWith(color: blue),
                       ),
                       TextSpan(
-                        text: ' and ',
-                        style: theme.textTheme.labelMedium,
+                        text: 'and ',
+                        style: textTheme.labelMedium,
                       ),
                       TextSpan(
-                        text: ' Privacy Notice',
-                        style:
-                            theme.textTheme.labelMedium!.copyWith(color: blue),
-                      ),
+                        text: 'Privacy Notice',
+                        style: textTheme.labelMedium!.copyWith(color: blue),
+                      )
                     ],
                   ),
                 ),
@@ -482,16 +537,15 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ),
           Container(
+            height: height * 0.06,
             width: width,
-            height: height * .06,
-            padding: EdgeInsets.symmetric(horizontal: width * .02),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: greyShade3),
                 top: BorderSide(color: greyShade3),
               ),
               color: greyShade1,
             ),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
             child: Row(
               children: [
                 InkWell(
@@ -503,30 +557,32 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Container(
                     height: height * 0.03,
                     width: height * 0.03,
-                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: grey)),
+                        border: Border.all(color: grey),
+                        color: white),
+                    alignment: Alignment.center,
                     child: Icon(
                       Icons.circle,
-                      size: height * 0.01,
+                      size: height * 0.015,
                       color: inLogin ? secondaryColor : transparent,
                     ),
                   ),
                 ),
-                CommonFunctions.blankSpace(0, width * .02),
+                CommonFunctions.blankSpace(
+                  0,
+                  width * 0.02,
+                ),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Sign in',
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
-                      ),
+                          text: 'Sign In ',
+                          style: textTheme.bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold)),
                       TextSpan(
-                        text: ' Already a Customer?',
-                        style: theme.textTheme.bodyMedium,
-                      ),
+                          text: 'Already a Customer? ',
+                          style: textTheme.bodyMedium)
                     ],
                   ),
                 ),
@@ -540,33 +596,27 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class CommonAuthButton extends StatelessWidget {
-   CommonAuthButton({
-    super.key,
-    required this.title,
-    required this.onPressed,
-     required this.btnWidth,
-  });
+  CommonAuthButton(
+      {super.key,
+        required this.title,
+        required this.onPressed,
+        required this.btnWidth});
   String title;
   VoidCallback onPressed;
   double btnWidth;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final textTheme = Theme.of(context).textTheme;
-
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(width * btnWidth, height * .06),
+        minimumSize: Size(width * btnWidth, height * 0.06),
         backgroundColor: amber,
       ),
-      child: Text(
-        title,
-        style: textTheme.displaySmall!
-            .copyWith(fontWeight: FontWeight.w600),
-      ),
+      child: Text('Continue', style: textTheme.displaySmall),
     );
   }
 }
@@ -574,54 +624,58 @@ class CommonAuthButton extends StatelessWidget {
 class BottomAuthScreenWidget extends StatelessWidget {
   const BottomAuthScreenWidget({
     super.key,
-    required this.width,
-    required this.height,
-    required this.textTheme,
   });
-
-  final double width;
-  final double height;
-  final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final textTheme = Theme.of(context).textTheme;
+
     return Column(
       children: [
         Container(
           height: 2,
           width: width,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                white,
-                greyShade3,
-                white,
-              ],
-            ),
-          ),
+              gradient: LinearGradient(colors: [white, greyShade3, white])),
         ),
-        CommonFunctions.blankSpace(height * .02, 0),
+        CommonFunctions.blankSpace(
+          height * 0.02,
+          0,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               'Condition of Use',
-              style: textTheme.bodyMedium!.copyWith(color: blue),
+              style: textTheme.bodyMedium!.copyWith(
+                color: blue,
+              ),
             ),
             Text(
               'Privacy Notice',
-              style: textTheme.bodyMedium!.copyWith(color: blue),
+              style: textTheme.bodyMedium!.copyWith(
+                color: blue,
+              ),
             ),
             Text(
               'Help',
-              style: textTheme.bodyMedium!.copyWith(color: blue),
+              style: textTheme.bodyMedium!.copyWith(
+                color: blue,
+              ),
             ),
           ],
         ),
-        CommonFunctions.blankSpace(height * .02, 0),
+        CommonFunctions.blankSpace(
+          height * 0.01,
+          0,
+        ),
         Text(
-          '© 1996-2024, Amazon.com, Inc. or its affiliates',
-          style: textTheme.labelMedium!.copyWith(color: grey),
+          '© 1996-2023, Amazon.com, Inc. or its affiliates',
+          style: textTheme.labelMedium!.copyWith(
+            color: grey,
+          ),
         ),
       ],
     );
